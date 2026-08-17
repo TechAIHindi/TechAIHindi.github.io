@@ -1,8 +1,6 @@
-
 name: AI Blog Test
 
-on:
-  workflow_dispatch:
+on: [workflow_dispatch]:
 
 jobs:
   test-ai:

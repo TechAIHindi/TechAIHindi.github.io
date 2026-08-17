@@ -1,18 +1,562 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechAI Hindi</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TechAI Hindi - AI और Technology</title>
+
+    <meta name="description"
+          content="AI, Technology, Apps और Internet की आसान जानकारी हिंदी में।">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 15px;
+        }
+
+        /* HERO */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1e3a8a
+                );
+
+            color: white;
+
+            padding: 80px 20px;
+
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #dbeafe;
+        }
+
+        .button {
+            display: inline-block;
+
+            margin-top: 28px;
+
+            padding: 13px 25px;
+
+            background: #38bdf8;
+            color: #082f49;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        /* CATEGORIES */
+
+        .categories {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .category {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.07);
+        }
+
+        .icon {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .category h3 {
+            margin-bottom: 8px;
+        }
+
+        .category p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* ARTICLES */
+
+        .articles {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+        .article {
+            background: white;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.07);
+        }
+
+        .article-image {
+            height: 160px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 55px;
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article h3 {
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .article p {
+            color: #6b7280;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .read-more {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 70px;
+
+            padding: 30px;
+
+            background: #111827;
+
+            color: #9ca3af;
+
+            text-align: center;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .categories {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .articles {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                width: 100%;
+                text-align: center;
+            }
+
+            nav a {
+                margin: 0 7px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .categories {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <h1>TechAI Hindi</h1>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        Tech<span>AI</span> Hindi
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="#categories">
+            Categories
+        </a>
+
+        <a href="#articles">
+            Articles
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            AI और Technology की दुनिया
+        </h1>
+
+        <p>
+            Artificial Intelligence, Technology,
+            Apps और Internet की आसान जानकारी
+            हिंदी में।
+        </p>
+
+        <a
+            href="#articles"
+            class="button"
+        >
+            Articles पढ़ें →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- CATEGORIES -->
+
+<section
+    class="container"
+    id="categories"
+>
+
+    <h2 class="section-title">
+        Categories
+    </h2>
+
+
+    <div class="categories">
+
+
+        <div class="category">
+
+            <div class="icon">
+                🤖
+            </div>
+
+            <h3>
+                AI
+            </h3>
+
+            <p>
+                Artificial Intelligence
+                की जानकारी
+            </p>
+
+        </div>
+
+
+        <div class="category">
+
+            <div class="icon">
+                💻
+            </div>
+
+            <h3>
+                Technology
+            </h3>
+
+            <p>
+                नई Technology और
+                Gadgets
+            </p>
+
+        </div>
+
+
+        <div class="category">
+
+            <div class="icon">
+                📱
+            </div>
+
+            <h3>
+                Mobile
+            </h3>
+
+            <p>
+                Apps और Mobile Tricks
+            </p>
+
+        </div>
+
+
+        <div class="category">
+
+            <div class="icon">
+                🛠️
+            </div>
+
+            <h3>
+                How-To
+            </h3>
+
+            <p>
+                आसान Step-by-Step Guides
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ARTICLES -->
+
+<section
+    class="container"
+    id="articles"
+>
+
+    <h2 class="section-title">
+        Latest Articles
+    </h2>
+
+
+    <div class="articles">
+
+
+        <article class="article">
+
+            <div class="article-image">
+                🤖
+            </div>
+
+            <div class="article-content">
+
+                <h3>
+                    AI क्या है और यह कैसे काम करता है?
+                </h3>
+
+                <p>
+                    Artificial Intelligence को
+                    आसान भाषा में समझिए।
+                </p>
+
+                <a
+                    href="#"
+                    class="read-more"
+                >
+                    पूरा Article पढ़ें →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <article class="article">
+
+            <div class="article-image">
+                📱
+            </div>
+
+            <div class="article-content">
+
+                <h3>
+                    मोबाइल में AI का इस्तेमाल
+                    कैसे करें?
+                </h3>
+
+                <p>
+                    Smartphone में AI की मदद से
+                    काम आसान करें।
+                </p>
+
+                <a
+                    href="#"
+                    class="read-more"
+                >
+                    पूरा Article पढ़ें →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <article class="article">
+
+            <div class="article-image">
+                💻
+            </div>
+
+            <div class="article-content">
+
+                <h3>
+                    Technology की नई दुनिया
+                </h3>
+
+                <p>
+                    नई Technology और Internet
+                    के बारे में जानिए।
+                </p>
+
+                <a
+                    href="#"
+                    class="read-more"
+                >
+                    पूरा Article पढ़ें →
+                </a>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
 
     <p>
-        AI और Technology की दुनिया में आपका स्वागत है।
+        © 2026 TechAI Hindi
     </p>
 
+    <p style="margin-top:8px;">
+        AI • Technology • Apps • How-To
+    </p>
+
+</footer>
+
+
 </body>
+
 </html>

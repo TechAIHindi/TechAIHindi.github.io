@@ -3,6 +3,9 @@ name: AI Blog
 on:
   workflow_dispatch:
 
+  schedule:
+    - cron: "30 4 * * *"
+
 permissions:
   contents: write
 
@@ -35,25 +38,71 @@ jobs:
               api_key=os.environ["GEMINI_API_KEY"]
           )
 
-          prompt = """
-          तुम TechAI Hindi नाम की वेबसाइट के लिए एक नया हिंदी ब्लॉग article लिख रहे हो।
+          # पहले से मौजूद articles की list
+          existing_articles = []
+
+          if os.path.exists("articles"):
+              for filename in os.listdir("articles"):
+                  if filename.endswith(".html"):
+                      existing_articles.append(filename)
+
+          existing_text = "\n".join(existing_articles[-30:])
+
+          prompt = f"""
+          तुम "TechAI Hindi" नाम की हिंदी technology website के लिए
+          एक नया और useful beginner-friendly article लिख रहे हो।
+
+          आज की तारीख:
+          {datetime.now().strftime("%d %B %Y")}
 
           विषय:
-          AI और Technology से जुड़ा कोई useful और trending beginner-friendly topic चुनो।
+          AI, Artificial Intelligence, Technology, Mobile Apps,
+          Internet, Google, Android, Productivity या Cyber Safety
+          से जुड़ा कोई useful topic चुनो।
 
-          Article:
+          ऐसा topic चुनो जो आम भारतीय users के लिए genuinely useful हो।
+
+          इन पुराने articles के topic/title को दोहराने से बचो:
+          {existing_text}
+
+          Article requirements:
+
           - 800 से 1200 शब्द
-          - आसान हिंदी
+          - आसान और natural हिंदी
+          - Indian audience को ध्यान में रखो
           - SEO friendly
           - शुरुआत में आकर्षक introduction
-          - H2 और H3 headings
+          - एक मुख्य H1 heading
+          - उचित H2 और H3 headings
           - practical examples
+          - जरूरी हो तो bullet points
+          - जानकारी स्पष्ट और उपयोगी हो
           - अंत में conclusion
-          - कोई झूठी जानकारी मत बनाओ
+          - गलत या मनगढ़ंत facts मत बनाओ
+          - किसी website का पूरा content copy मत करो
+          - clickbait मत बनाओ
 
-          केवल पूरा HTML article दो।
-          HTML में <h1>, <h2>, <h3>, <p>, <ul>, <li> आदि इस्तेमाल कर सकते हो।
-          <html>, <head> या <body> tag मत देना।
+          HTML requirements:
+
+          केवल article का HTML output करो।
+
+          Allowed tags:
+          <h1>
+          <h2>
+          <h3>
+          <p>
+          <ul>
+          <ol>
+          <li>
+          <strong>
+          <em>
+          <blockquote>
+          <a>
+
+          <html>, <head>, <body>, <style> या <script> tags मत देना।
+
+          Output में Markdown मत देना।
+          केवल साफ HTML article देना।
           """
 
           response = client.models.generate_content(
@@ -63,11 +112,23 @@ jobs:
 
           article = response.text.strip()
 
+          if not article:
+              raise RuntimeError("Gemini returned an empty article.")
+
+          # अगर AI ने गलती से markdown code fence डाल दिया हो
+          if article.startswith("```html"):
+              article = article[7:]
+
+          if article.endswith("```"):
+              article = article[:-3]
+
+          article = article.strip()
+
           os.makedirs("articles", exist_ok=True)
 
-          filename = datetime.now().strftime(
-              "articles/ai-article-%Y-%m-%d-%H%M.html"
-          )
+          timestamp = datetime.now().strftime("%Y-%m-%d-%H%M")
+
+          filename = f"articles/ai-article-{timestamp}.html"
 
           with open(filename, "w", encoding="utf-8") as f:
               f.write(article)
@@ -79,6 +140,12 @@ jobs:
         run: |
           git config user.name "TechAI Hindi AI"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add articles/
-          git diff --cached --quiet || git commit -m "AI: Publish new article"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No new article was created."
+          else
+            git commit -m "AI: Publish new article"
+            git push
+          fi

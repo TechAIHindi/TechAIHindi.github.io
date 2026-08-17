@@ -2,15 +2,13 @@ name: AI Blog
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "30 4 * * *"
+
+permissions:
+  contents: write
 
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
@@ -19,10 +17,10 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
 
       - name: Install Gemini SDK
-        run: pip install google-genai
+        run: pip install -U google-genai
 
       - name: Generate AI Article
         env:

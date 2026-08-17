@@ -1,9 +1,12 @@
-name: AI Blog Test
+name: AI Blog
 
-on: push
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 4 * * *"
 
 jobs:
-  test-ai:
+  generate-blog:
     runs-on: ubuntu-latest
 
     permissions:
@@ -21,22 +24,63 @@ jobs:
       - name: Install Gemini SDK
         run: pip install google-genai
 
-      - name: Test Gemini AI
+      - name: Generate AI Article
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python - <<'PY'
           import os
+          from datetime import datetime
           from google import genai
 
           client = genai.Client(
               api_key=os.environ["GEMINI_API_KEY"]
           )
 
+          prompt = """
+          तुम TechAI Hindi नाम की वेबसाइट के लिए एक नया हिंदी ब्लॉग article लिख रहे हो।
+
+          विषय:
+          AI और Technology से जुड़ा कोई useful और trending beginner-friendly topic चुनो।
+
+          Article:
+          - 800 से 1200 शब्द
+          - आसान हिंदी
+          - SEO friendly
+          - शुरुआत में आकर्षक introduction
+          - H2 और H3 headings
+          - practical examples
+          - अंत में conclusion
+          - कोई झूठी जानकारी मत बनाओ
+
+          केवल पूरा HTML article दो।
+          HTML में <h1>, <h2>, <h3>, <p>, <ul>, <li> आदि इस्तेमाल कर सकते हो।
+          <html>, <head> या <body> tag मत देना।
+          """
+
           response = client.models.generate_content(
               model="gemini-3.5-flash-lite",
-              contents="Write one short sentence in Hindi about artificial intelligence."
+              contents=prompt
           )
 
-          print(response.text)
+          article = response.text.strip()
+
+          os.makedirs("articles", exist_ok=True)
+
+          filename = datetime.now().strftime(
+              "articles/ai-article-%Y-%m-%d-%H%M.html"
+          )
+
+          with open(filename, "w", encoding="utf-8") as f:
+              f.write(article)
+
+          print("Created:", filename)
           PY
+
+      - name: Publish article
+        run: |
+          git config user.name "TechAI Hindi AI"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add articles/
+          git diff --cached --quiet || git commit -m "AI: Publish new article"
+          git push

@@ -2,10 +2,8 @@ name: AI Blog
 
 on:
   workflow_dispatch:
-
   schedule:
-    - cron: "30 4 * * *"
-
+    - cron: "30 17 * * *"
 permissions:
   contents: write
 
